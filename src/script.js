@@ -1,6 +1,7 @@
+// ...existing code...
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
-import { GLTFLoader}  from 'three/examples/jsm/loaders/GLTFLoader.js'
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import GUI from 'lil-gui'
 import { compress } from 'three/examples/jsm/libs/fflate.module.js'
 import { AfterimagePass } from 'three/examples/jsm/postprocessing/AfterimagePass.js'
@@ -17,16 +18,20 @@ const gui = new GUI()
 const canvas = document.querySelector('canvas.webgl')
 
 // Scene
-const scene = new THREE.Scene()
-const color = 'rgb(36, 35, 35)'
-scene.background = new THREE.Color(color)
 
-//texture
-const textureLoader = new THREE.TextureLoader()
 
-//floor texture
-const floorAlphaTexture = textureLoader.load('/models/floor/alpha.jpg')
+// Lights
+const scene = new THREE.Scene();
+const color = 'rgb(201, 201, 201)';
+scene.background = new THREE.Color(color);
 
+// نور نقطه‌ای و PointLightHelper (بعد از تعریف scene)
+const pointLight = new THREE.PointLight('#ff6a00', 10, 5, 10); // شدت و شعاع نور بیشتر شد
+pointLight.position.set(5, 0, 9);
+scene.add(pointLight);
+const pointLightHelper = new THREE.PointLightHelper(pointLight, 20); // نمایش بزرگ‌تر برای کمک بصری
+pointLightHelper.visible = false;
+scene.add(pointLightHelper);
 
 //Models 
 const gltfLoader = new GLTFLoader()
@@ -35,61 +40,41 @@ let mixer = null
 
 gltfLoader.load(
     '/models/box/cupe4.glb',
-    (gltf) =>
-    {
+    (gltf) => {
         mixer = new THREE.AnimationMixer(gltf.scene);
-        const action = mixer.clipAction(gltf.animations[0]);
+        let action = null;
+        if (gltf.animations && gltf.animations.length > 0) {
+            action = mixer.clipAction(gltf.animations[0]);
+            action.play();
+            console.log(action)
+        } else {
+            console.warn('No animations found in GLB.');
+        }
 
-        action.play();
-        console.log(action)
-
+        // تغییر رنگ همه متریال‌های مدل به قرمز
+        gltf.scene.traverse((child) => {
+            if (child.isMesh && child.material) {
+                child.material.color = new THREE.Color('#d3d3d3'); // لایت گری
+                child.material.opacity = 0.2; // اوپسیتی کم
+                child.material.transparent = true;
+                child.material.needsUpdate = true;
+            }
+        });
         scene.add(gltf.scene)
-        
+
+        // پیدا کردن آبجکت اصلی متحرک (در صورت وجود)
+        let animatedObject = null;
+        if (gltf.scene.children && gltf.scene.children.length > 0) {
+            animatedObject = gltf.scene.children[0];
+            animatedObject.visible = false;
+        }
+        // ذخیره آبجکت برای استفاده در حلقه انیمیشن
+        window.animatedObject = animatedObject;
     }
 )
 
 
 
-/**
- * Floor
- */
-const floor = new THREE.Mesh(
-    new THREE.PlaneGeometry(10, 10),
-    new THREE.MeshStandardMaterial({
-        alphaMap: floorAlphaTexture,
-        transparent: true,
-        color: '#ddddddff',
-        opacity: 0.7,
-        metalness:  0,
-        roughness: 0.5,
-        side: THREE.DoubleSide
-    })
-)
-floor.position.y = -1
-floor.receiveShadow = true
-floor.rotation.y =  THREE.MathUtils.degToRad(45)
-floor.receiveShadow = true
-
-
-scene.add(floor)
-
-/**
- * Lights
- */
-const ambientLight = new THREE.AmbientLight(0x86cdff, 0.4)
-scene.add(ambientLight)
-
-const directionalLight = new THREE.DirectionalLight(0xffffff, 2.8)
-directionalLight.castShadow = true
-
-directionalLight.position.set(5, 5, 5)
-scene.add(directionalLight)
-
-//light pointLight
-const pointLight = new THREE.PointLight('#f70000ff', 10, 100 )
-pointLight.position.set(0, 0, 0)
-pointLight.castShadow = true
-scene.add(pointLight)
 
 
 /**
@@ -100,8 +85,7 @@ const sizes = {
     height: window.innerHeight
 }
 
-window.addEventListener('resize', () =>
-{
+window.addEventListener('resize', () => {
     // Update sizes
     sizes.width = window.innerWidth
     sizes.height = window.innerHeight
@@ -145,18 +129,22 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 const clock = new THREE.Clock()
 let previousTime = 0
 
-const tick = () =>
-{
+const tick = () => {
     const elapsedTime = clock.getElapsedTime()
     const deltaTime = elapsedTime - previousTime
     previousTime = elapsedTime
 
     // Update mixer
-    if(mixer !== null)
-        {
-          mixer.update(deltaTime)
+    if (mixer !== null) {
+        mixer.update(deltaTime)
+
+        // همگام‌سازی موقعیت pointLight با آبجکت متحرک
+        if (window.animatedObject) {
+            pointLight.position.copy(window.animatedObject.position);
+            pointLightHelper.update();
+        }
     }
-  
+
 
     // Update controls
     controls.update()
