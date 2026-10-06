@@ -3,11 +3,157 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Imported models</title>
+    <title>Nyra Labs — 3D, AI video & web, built end to end.</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./style.css">
 </head>
 <body>
-    <canvas class="webgl"></canvas>
+
+    <header class="site-header">
+        <div class="wrap header-inner">
+            <a class="logo" href="#top">NYRA <span class="accent-amber">LABS</span></a>
+            <nav class="main-nav">
+                <a href="#services">Services</a>
+                <a href="#portfolio">Portfolio</a>
+                <a href="#pricing">Pricing</a>
+                <a href="#contact">Contact</a>
+            </nav>
+            <a class="btn btn-amber" href="#contact">Start a project</a>
+        </div>
+    </header>
+
+    <main id="top">
+
+        <section class="hero">
+            <canvas id="hero-canvas" aria-hidden="true"></canvas>
+            <div class="hero-overlay"></div>
+            <div class="hero-text">
+                <p class="eyebrow"><span class="dot"></span>SOLO STUDIO &middot; AGENT-RUN</p>
+                <h1>3D, AI video &amp; web &mdash;<br><span class="accent-amber">built end to end.</span></h1>
+                <p class="lede">
+                    Nyra Labs is a one-person creative studio that models, animates and ships
+                    your product's visuals &mdash; from a single render to a full ad campaign
+                    to the site that sells it.
+                </p>
+            </div>
+            <div class="hero-actions">
+                <a class="btn btn-amber" href="#portfolio">See the work</a>
+                <a class="btn btn-outline" href="#contact">Get a quote</a>
+            </div>
+        </section>
+
+        <div class="wrap"><hr class="divider"></div>
+
+        <section class="section" id="services">
+            <div class="wrap">
+                <div class="section-head">
+                    <p class="eyebrow eyebrow-center">WHAT I BUILD</p>
+                    <h2>Three disciplines, one studio</h2>
+                    <p class="section-sub">Every project draws on the same craft, whichever deliverable you need.</p>
+                </div>
+                <div class="card-grid">
+                    <article class="card">
+                        <div class="card-icon icon-amber">3D</div>
+                        <h3>3D modeling &amp; rendering</h3>
+                        <p>Product visualization, architectural renders, stylized assets &mdash; built to spec and rendered for print or web.</p>
+                    </article>
+                    <article class="card">
+                        <div class="card-icon icon-cyan">AI</div>
+                        <h3>AI-generated ad video</h3>
+                        <p>Short-form and campaign video produced with AI pipelines &mdash; fast turnaround without sacrificing direction.</p>
+                    </article>
+                    <article class="card">
+                        <div class="card-icon icon-dark">&lt;/&gt;</div>
+                        <h3>Website design &amp; build</h3>
+                        <p>Marketing sites and product sites &mdash; designed, coded and shipped, with the backend wired in.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <div class="wrap"><hr class="divider"></div>
+
+        <section class="section" id="portfolio">
+            <div class="wrap">
+                <div class="section-head">
+                    <p class="eyebrow eyebrow-center">RECENT WORK</p>
+                    <h2>A sample of the studio's output</h2>
+                </div>
+                <div class="tabs" role="tablist">
+                    <button class="tab is-active" type="button" data-filter="3d" role="tab" aria-selected="true">3D</button>
+                    <button class="tab" type="button" data-filter="video" role="tab" aria-selected="false">Video</button>
+                    <button class="tab" type="button" data-filter="web" role="tab" aria-selected="false">Web</button>
+                </div>
+                <div class="portfolio-grid">
+                    <div class="portfolio-item"></div>
+                    <div class="portfolio-item"></div>
+                    <div class="portfolio-item"></div>
+                </div>
+            </div>
+        </section>
+
+        <div class="wrap"><hr class="divider"></div>
+
+        <section class="section" id="pricing">
+            <div class="wrap">
+                <div class="section-head">
+                    <p class="eyebrow eyebrow-center">PRICING</p>
+                    <h2>Simple, scoped pricing</h2>
+                    <p class="section-sub">Every project is quoted after a quick call &mdash; here's the general shape.</p>
+                </div>
+                <div class="card-grid">
+                    <article class="card">
+                        <div class="card-icon icon-amber">3D</div>
+                        <h3>Single asset</h3>
+                        <p class="price">from $350</p>
+                        <p>One rendered 3D asset or product shot, delivered in 3&ndash;5 days.</p>
+                    </article>
+                    <article class="card">
+                        <div class="card-icon icon-cyan">AI</div>
+                        <h3>Campaign package</h3>
+                        <p class="price">from $1,200</p>
+                        <p>A short-form video set &mdash; script to final cut, with two rounds of revisions.</p>
+                    </article>
+                    <article class="card">
+                        <div class="card-icon icon-dark">&lt;/&gt;</div>
+                        <h3>Full site build</h3>
+                        <p class="price">from $2,800</p>
+                        <p>Marketing or product site, designed and coded, with the backend wired in.</p>
+                    </article>
+                </div>
+                <p class="pricing-note">Need something different? <a href="#contact" class="accent-amber">Get a custom quote &rarr;</a></p>
+            </div>
+        </section>
+
+        <section class="section" id="contact">
+            <div class="wrap">
+                <div class="cta-band">
+                    <div class="cta-copy">
+                        <h3>Have a project in mind?</h3>
+                        <p>Tell me what you need &mdash; I'll reply with scope and a quote within a day.</p>
+                    </div>
+                    <a class="btn btn-amber" href="mailto:hello@nyralabs.studio">Start a project</a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="site-footer">
+        <div class="wrap"><hr class="divider"></div>
+        <div class="wrap footer-inner">
+            <a class="logo" href="#top">NYRA <span class="accent-amber">LABS</span></a>
+            <nav class="footer-nav">
+                <a href="#services">Services</a>
+                <a href="#portfolio">Portfolio</a>
+                <a href="#contact">Contact</a>
+            </nav>
+            <p class="copyright">&copy; 2026 Nyra Labs</p>
+        </div>
+    </footer>
+
     <script type="module" src="./script.js"></script>
 </body>
 </html>
